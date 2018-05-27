@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'android-aspectjx'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.example.yinzh.hansnow"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    greendao {
+        schemaVersion 1
+//        daoPackage 'com.zgl.greentest.gen'   由GreenDao自动生成代码所在的包名，默认的是在项目包下面新建一个gen。
+//        targetGenDir 'src/main/java'   设置自动生成代码的目录。
+    }
+}
+
+
+
+/**
+ * aspectjx默认会遍历项目编译后所有的.class文件和依赖的第三方库去查找符合织入条件的切点，
+ * 为了提升编译效率，可以加入过滤条件指定遍历某些库或者不遍历某些库。
+ * includeJarFilter和excludeJarFilter可以支持groupId过滤，
+ * artifactId过滤，或者依赖路径匹配过滤
+ */
+aspectjx {
+    excludeJarFilter '.jar'
+    excludeJarFilter 'com.android.support'
+    excludeJarFilter 'com.github.bumptech'
+    excludeJarFilter 'org.greenrobot:eventbus'
+    excludeJarFilter 'com.jakewharton:butterknife'
+    excludeJarFilter 'org.aspectj:aspectjrt'
+    excludeJarFilter 'com.squareup.retrofit2'
+    excludeJarFilter 'com.squareup.okhttp3'
+    excludeJarFilter 'com.google.code.gson'
+    excludeJarFilter 'io.reactivex:rxandroid'
+    excludeJarFilter 'org.javassist:javassist'
+
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    /*AspectJ*/
+    api 'org.aspectj:aspectjrt:1.8.10'
+    /*RxJava */
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+}
