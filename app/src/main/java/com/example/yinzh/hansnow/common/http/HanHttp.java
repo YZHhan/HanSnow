@@ -58,4 +58,13 @@ public class HanHttp {
         return retrofitBuilder;
     }
 
+    public static OkHttpClient getOkHttpClient(){
+        if(okHttpClient == null){
+            throw new IllegalStateException("Please call HanHttp.init(this) in Application to initialize");
+        }
+        return okHttpClient;
+    }
+
+
+
 }
